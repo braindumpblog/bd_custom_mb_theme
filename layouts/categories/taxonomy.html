@@ -1,0 +1,92 @@
+{{ define "main" }}
+
+<!-- $pages -->
+{{ $pages := union .RegularPages .Sections }}
+<!---->{{ if .IsHome }} {{ $pages = where site.RegularPages "Type" "post" }}
+{{ end }}
+
+<h2 style = "font-size: 3rem; line-height: 2;">{{ .Title }}</h2>
+
+{{ if eq .Title  "Book notes" }}
+{{/* This must be the book notes section page, display the below */}}
+
+<p>My book notes aim to summarise the parts of the book that most attracted my attention, perhaps reworded or reorganised, and don’t necessarily reflect to what extent I agree or disagree with them. I'm very open to discussions as to whether I have misunderstood or overlooked any important parts.</p>
+
+{{  end }}
+
+<!-- Articles -->
+
+{{ $paginator := .Paginate $pages }} {{ range $index, $page := $paginator.Pages }}
+ 
+  <p class="archive-entry">
+  
+  {{ if in .Params.categories "Book notes" }}
+		{{/* As we iterate through the entries we look for the different categories and render in different ways depending on the type of entry we find */}}
+  
+<a href="{{ .Permalink }}" style = "border-bottom-width: thin; border-bottom-style: dotted; font-weight: normal;">{{ replace .Title "Book notes: " "" }}</a>
+  <span class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">({{ .Date.Format "2006-01-02" }})</span>
+
+ {{ else if in .Params.categories "Media diet" }}  
+
+	{{/* Get the first sentence of the entry, up to the . using regex */}}
+	{{ $first_sentence_array := findRE `^.*?[\.!\?](?:\s|$)` .Summary 1 }}
+
+	{{/* That returns an array so get the first item of the array */}}
+	{{ $first_sentence := index $first_sentence_array 0 }}
+
+		<a href="{{ .Permalink }}" class="u-url"><span class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">{{ .Date.Format "2006-01-02" }}</span></a>:
+
+	{{ if .Title }}			
+  			<span class="p-name">{{ .Title }}</span> 
+	{{ else }}
+				{{/* If there's no title then we use the first sentence of the entry, specifying that the HTML is safe*/}}
+     		<span class="p-summary">{{  $first_sentence | safeHTML }}</span>  	
+	{{  end }}
+
+
+  {{ else}}
+  
+  			<a href="{{ .Permalink }}" class="u-url"><span class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">{{ .Date.Format "2006-01-02" }}</span></a>:
+  
+  		{{ if .Title }}			
+  			<span class="p-name">{{ .Title }}</span> 
+  		{{ else }}
+  			<span class="p-summary">{{ .Summary | truncate 100 }}</span>
+  		{{  end }}
+  
+  {{ end }}
+  
+  </p>
+{{ end }}
+
+		
+
+
+<!-- Main Nav -->
+{{ if gt $paginator.TotalPages 1 }}
+<nav class="main-nav">
+  {{ if $paginator.HasPrev }}
+  <a class="prev" href="{{ $paginator.Prev.URL }}">← Prev Page</a>
+  {{ end }}<!---->
+  {{ if $paginator.HasNext }}
+  <a class="next" href="{{ $paginator.Next.URL }}">Next Page →</a>
+  {{ end }}
+</nav>
+{{ end }}<!---->
+
+
+
+{{ if eq .Title  "Book notes" }}
+<br>
+<hr>
+<br>
+The books I'm currently reading, a few of which might gain notes later, are:
+
+{{ range .Site.Data.bookshelves.currentlyreading }}
+	<br>
+	<a href="https://micro.blog/books/{{ .isbn }}" style = "border-bottom-width: thin; border-bottom-style: dotted;">{{ .title }}</a>
+{{ end }}
+
+{{  end }}
+
+{{ end }}
