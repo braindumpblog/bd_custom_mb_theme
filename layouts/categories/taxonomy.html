@@ -36,17 +36,11 @@
 
 		<a href="{{ .Permalink }}" class="u-url"><span class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">{{ .Date.Format "2006-01-02" }}</span></a>:
 
-	{{ if .Title }}			
-  			<span class="p-name">{{ .Title }}</span> 
-	{{ else }}
-				{{/* If there's no title then we use the first sentence of the entry, specifying that the HTML is safe*/}}
-     		<span class="p-summary">{{  $first_sentence | safeHTML }}</span>  	
-	{{  end }}
-
+   		<span class="p-summary">{{  $first_sentence | safeHTML }}</span>  	
 
   {{ else}}
   
-  			<a href="{{ .Permalink }}" class="u-url"><span class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">{{ .Date.Format "2006-01-02" }}</span></a>:
+ 		<a href="{{ .Permalink }}" class="u-url"><span class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">{{ .Date.Format "2006-01-02" }}</span></a>:
   
   		{{ if .Title }}			
   			<span class="p-name">{{ .Title }}</span> 
@@ -60,7 +54,6 @@
 {{ end }}
 
 		
-
 
 <!-- Main Nav -->
 {{ if gt $paginator.TotalPages 1 }}
@@ -87,6 +80,6 @@ The books I'm currently reading, a few of which might gain notes later, are:
 	<a href="https://micro.blog/books/{{ .isbn }}" style = "border-bottom-width: thin; border-bottom-style: dotted;">{{ .title }}</a>
 {{ end }}
 
-{{  end }}
+{{ end }}
 
 {{ end }}
