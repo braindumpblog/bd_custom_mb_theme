@@ -2,12 +2,12 @@
   {{ if .IsHome }}
   <h1 class="logo">
     <a class="site-name" href="{{ `` | absURL }}">{{ site.Title }}</a>
-    <div style = "width: 5rem;" />
+    <div style = "width: 5rem;" /> <!-- Stops site title cutting off -->
   </h1>
   {{ else }}
   <p class="logo">
     <a class="site-name" href="{{ `` | absURL }}">{{ site.Title }}</a>
-    <div style = "width: 5rem;" />
+    <div style = "width: 5rem;" /> <!-- Stops site title cutting off -->
   </p>
   {{ end }}
  
