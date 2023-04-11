@@ -1,15 +1,34 @@
 <header class="header">
   {{ if .IsHome }}
   <h1 class="logo">
-    <a class="site-name" href="{{ `` | absURL }}">{{ site.Title }}</a><a class="btn-dark"></a>
+    <a class="site-name" href="{{ `` | absURL }}">{{ site.Title }}</a>
   </h1>
   {{ else }}
   <p class="logo">
-    <a class="site-name" href="{{ `` | absURL }}">{{ site.Title }}</a><a class="btn-dark"></a>
+    <a class="site-name" href="{{ `` | absURL }}">{{ site.Title }}</a>
   </p>
   {{ end }}
-
+ 
+  {{ $url := .RelPermalink }}<!---->
+  {{ $mb := "microdotblog" }}<!---->
+  {{ with site.Menus.main }}
+  <nav class="menu">
+    {{ range . }}
+			{{ if .Page.Params.redirect_url }}
+				<a class="{{ if eq .URL $url }}active{{ end }}" href="{{ .Page.Params.redirect_url }}">{{ .Name }}</a>
+			{{ else }}
+				<a class="{{ if eq .URL $url }}active{{ end }}" role="presentation" href="{{ .URL | relLangURL | safeURL }}">{{ .Name }}</a>
+			{{ end }}
+		{{ end }}
+  
+  <!-- Dark mode button -->
+  <a class="btn-dark"></a>
+  
+  </nav>
+  {{ end }}<!---->
+	
   <script>
+    <!-- Dark mode functionality -->
     let bodyClx = document.body.classList;
     let btnDark = document.querySelector('.btn-dark');
     let sysDark = window.matchMedia('(prefers-color-scheme: dark)');
@@ -26,20 +45,6 @@
     btnDark.addEventListener('click', () => setDark(!bodyClx.contains('dark')));
     sysDark.addEventListener('change', (event) => setDark(event.matches));
   </script>
-
-  {{ $url := .RelPermalink }}<!---->
-  {{ $mb := "microdotblog" }}<!---->
-  {{ with site.Menus.main }}
-  <nav class="menu">
-    {{ range . }}
-			{{ if .Page.Params.redirect_url }}
-				<a class="{{ if eq .URL $url }}active{{ end }}" href="{{ .Page.Params.redirect_url }}">{{ .Name }}</a>
-			{{ else }}
-				<a class="{{ if eq .URL $url }}active{{ end }}" role="presentation" href="{{ .URL | relLangURL | safeURL }}">{{ .Name }}</a>
-			{{ end }}
-		{{ end }}
-  </nav>
-  {{ end }}<!---->
 
   {{ with $.Scratch.Get "social-list" }}
   <nav class="social">
