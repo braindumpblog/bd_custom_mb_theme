@@ -19,7 +19,7 @@
 		{{ range .Pages }}
 
 			<p class="archive-entry">
-				<a href="{{ .Permalink }}" class="u-url"><span class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">{{ .Date.Format "2006-01-02" }}</span></a>:
+				<a href="{{ .Permalink }}" class="u-url"><span class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">{{ .Date.Format "Jan 2" }}</span></a>:
 				{{ if .Title }}
 					<span class="p-name"><b>{{ .Title }}</b></span> 
 				{{ else }}
