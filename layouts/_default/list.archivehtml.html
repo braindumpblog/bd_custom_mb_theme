@@ -9,16 +9,27 @@
     {{  end  }}
 	
 	{{ $list := (where .Site.Pages "Type" "post") }}
-	{{ range $list }}
+	
+	{{ range $list.GroupByDate "January 2006" }}
+		
+		<h2>
+        	{{ .Key }}
+		</h2>
 
-		<p class="archive-entry">
-			<a href="{{ .Permalink }}" class="u-url"><span class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">{{ .Date.Format "2006-01-02" }}</span></a>:
-			{{ if .Title }}
-				<span class="p-name"><b>{{ .Title }}</b></span> 
-			{{ else }}
-				<span class="p-summary">{{ .Summary | truncate 100 }}</span>
-			{{ end }}
-		</p>
+		{{ range .Pages }}
+
+			<p class="archive-entry">
+				<a href="{{ .Permalink }}" class="u-url"><span class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">{{ .Date.Format "2006-01-02" }}</span></a>:
+				{{ if .Title }}
+					<span class="p-name"><b>{{ .Title }}</b></span> 
+				{{ else }}
+					<span class="p-summary">{{ .Summary | truncate 100 }}</span>
+				{{ end }}
+			</p>
+	
+		<hr class="post-separator"></hr>
+
+		{{ end }}
 
 	{{ end }}
 
