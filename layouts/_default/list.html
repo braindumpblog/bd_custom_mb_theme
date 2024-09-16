@@ -5,8 +5,12 @@
 <!---->{{ if .IsHome }} {{ $pages = where site.RegularPages "Type" "post" }}
 {{ end }}
 
+<!-- Remove linklog entries from list to display-->
+{{ $hidden_posts := where $pages "Params.categories" "intersect" (slice "Linklog") }}
+{{ $filtered_pages := $pages | symdiff $hidden_posts }}
+
 <!-- Articles -->
-{{ $paginator := .Paginate $pages }} {{ range $index, $page := $paginator.Pages }}
+{{ $paginator := .Paginate $filtered_pages }} {{ range $index, $page := $paginator.Pages }}
   {{ if .Site.Params.full_content_on_homepage }}
     <article class="post-entry-content">
       {{ if .Title }}
