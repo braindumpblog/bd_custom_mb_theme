@@ -5,6 +5,25 @@
 <!---->{{ if .IsHome }} {{ $pages = where site.RegularPages "Type" "post" }}
 {{ end }}
 
+<!-- If this is the homepage the display recently read posts at the top -->
+{{ if .IsHome }}
+
+  <div id="recently_read" class="all_borders">
+    <h1>Recently I read:</h1>
+   
+  	{{ $linklog_posts := first 3 (sort (where $pages "Params.categories" "intersect" (slice "Linklog"))  "Date" "desc") }}
+  
+  	{{ range $linklog_posts }}
+      <article>
+      <p>{{ .Content }} </p>            
+      </article>
+    {{ end }}
+  
+  	<p><a href="/categories/linklog">More links</a></p>
+	</div>
+
+{{ end }}
+
 <!-- Remove linklog entries from list to display-->
 {{ $hidden_posts := where $pages "Params.categories" "intersect" (slice "Linklog") }}
 {{ $filtered_pages := $pages | symdiff $hidden_posts }}
