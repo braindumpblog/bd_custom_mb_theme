@@ -9,20 +9,24 @@
 {{ if .IsHome }}
 
   <div id="recently_read" class="all_borders">
-    <h1>Recently I read:</h1>
-   
-    {{ $linklog_posts := first 3 (sort (where $pages "Params.categories" "intersect" (slice "Linklog"))  "Date" "desc") }}
-  
-    {{ range $linklog_posts }}
-      <article>
-      <p>{{ .Content }} </p>            
-      </article>
-    {{ end }}
-  
-    <p><a href="/categories/linklog">More links</a></p>
+    <details open>
+      <summary>Recently I read:</summary>
+     
+      {{ $linklog_posts := first 3 (sort (where $pages "Params.categories" "intersect" (slice "Linklog"))  "Date" "desc") }}
+    
+      {{ range $linklog_posts }}
+        <article>
+        <p>{{ .Content }} </p>            
+        </article>
+      {{ end }}
+    
+      <p><a href="/categories/linklog">More links</a></p>
+    </details>
   </div>
 
-  <h1>Latest posts:</h1>
+  <div class="post-content">
+    <h2>Latest posts:</h2>
+  </div>
 {{ end }}
 
 <!-- Remove linklog entries from list to display-->
